@@ -316,12 +316,18 @@ export default function App(){
 
       <Container maxWidth="xl" sx={{ mt:'15px' }}>
         <Paper sx={{ p:2 }}>
-          {/* Header row */}
-          <Box sx={{ mb:1 }}>
-              <Typography sx={{ fontWeight:600 }}>Scan log</Typography>
-            </Box>
+          {/* Header row WITH ACTION BUTTONS */}
+          <Box sx={{ display:'flex', justifyContent:'space-between', alignItems:'center', mb:2 }}>
+            <Typography sx={{ fontWeight:600 }}>Items</Typography>
 
-          {/* Unified toolbar */}
+            <Box sx={{ display:'flex', gap:1 }}>
+              <Button onClick={openAdd} variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#2a8df0' }}>Add</Button>
+              <Button variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#9e9e9e' }}>Delete</Button>
+              <Button variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#43a047' }}>Export</Button>
+            </Box>
+          </Box>
+
+          {/* SECOND ROW TOOLBAR */}
           <Box sx={{ display:'flex', justifyContent:'space-between', alignItems:'center', mb:2 }}>
 
             {/* LEFT */}
@@ -337,34 +343,18 @@ export default function App(){
             {/* RIGHT */}
             <Box sx={{ display:'flex', alignItems:'center', gap:1.5 }}>
 
-              <Button variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#2a8df0', boxShadow:'none' }}>
-                {'< Scroll left'}
-              </Button>
-              <Button variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#2a8df0', boxShadow:'none' }}>
-                {'Scroll right >'}
-              </Button>
+              <Button variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#2a8df0', boxShadow:'none' }}>{'< Scroll left'}</Button>
+              <Button variant="contained" size="small" sx={{ textTransform:'none', fontSize:12, background:'#2a8df0', boxShadow:'none' }}>{'Scroll right >'}</Button>
 
               <Typography sx={{ color:'#2a8df0', fontSize:12, cursor:'pointer' }}>Σ Sum</Typography>
-              <Typography
-                onClick={()=>setOpenFieldsModal(true)}
-                sx={{ color:'#2a8df0', fontSize:12, cursor:'pointer' }}
-              >
-                Show fields with order
-              </Typography>
-
-              {/* trigger modal */}
-              <Box sx={{ position:'absolute', width:0, height:0 }} />
+              <Typography onClick={()=>setOpenFieldsModal(true)} sx={{ color:'#2a8df0', fontSize:12, cursor:'pointer' }}>Show fields with order</Typography>
 
               <Box sx={{ display:'flex', alignItems:'center', border:'1px solid #cfcfcf', borderRadius:1, overflow:'hidden', height:30 }}>
-                <input
-                  placeholder="Search text"
-                  style={{ border:'none', outline:'none', padding:'0 8px', fontSize:12, width:180 }}
-                />
+                <input placeholder="Search text" style={{ border:'none', outline:'none', padding:'0 8px', fontSize:12, width:180 }} />
                 <Box sx={{ background:'#2a8df0', width:34, height:'100%', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
                   <Search sx={{ color:'#fff', fontSize:16 }} />
                 </Box>
               </Box>
-
             </Box>
 
           </Box>
