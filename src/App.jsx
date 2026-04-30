@@ -692,93 +692,106 @@ function ItemDetail({ item, onBack, onOpenScanner }){
           </Box>
 
           {/* FORM GRID */}
-          <Box sx={{ display:'grid', gridTemplateColumns:'1fr 1fr 0.7fr 0.7fr 0.7fr 1.6fr 2fr', gap:2 }}>
+          <Box sx={{ display:'grid', gridTemplateColumns:'1fr 1fr 2fr', gap:2 }}>
 
             {/* Row 1 */}
-            <Labeled label="Item ID" tip="Unique identifier used for scanning and tracking this item. This ID is used in QR codes and must be unique.">
-              <TextField fullWidth value={form.itemId || ''} />
-            </Labeled>
+            <Box sx={{ gridColumn:'span 3', display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:2 }}>
 
-            <Labeled label="Item type" tip="Defines the type of item (e.g. Suit, Life Jacket). Helps categorize and filter items.">
-              <Select fullWidth value={form.type || ''} onChange={(e)=>handleChange('type', e.target.value)}>
-                {itemTypes.map(t => <MenuItem key={t} value={t}>{t}</MenuItem>)}
-              </Select>
-            </Labeled>
-
-            <Labeled label="Size" tip="Physical size of the item. Useful for allocation and fitting purposes.">
-              <TextField fullWidth />
-            </Labeled>
-
-            <Labeled label="Weight (kg)" tip="Weight of the item in kilograms. Helps with transport and logistics planning.">
-              <TextField fullWidth />
-            </Labeled>
-
-            <Labeled label="Gender" tip="Indicates if the item is intended for a specific gender. Optional field.">
-              <Select
-                fullWidth
-                value={form.gender || ''}
-                onChange={(e)=>handleChange('gender', e.target.value)}
-                displayEmpty
-                renderValue={(selected) => !selected ? <span style={{ color:'#999' }}>Select</span> : selected}
-              >
-                <MenuItem value="">Select</MenuItem>
-                <MenuItem value="Male">Male</MenuItem>
-                <MenuItem value="Female">Female</MenuItem>
-              </Select>
-            </Labeled>
-
-            <Labeled label="Others" tip="Additional attributes or custom details relevant to this item.">
-              <TextField fullWidth />
-            </Labeled>
-
-            {/* Status + meta */}
-            <Box>
-              <Labeled label="Status" tip="Current availability of the item. Reflects whether the item is available, in use, or under maintenance.">
-                <StatusSelect value={form.status || statuses[0]} onChange={(e)=>handleChange('status', e.target.value)} />
+              <Labeled label="Item ID" tip="Unique identifier used for scanning and tracking this item. This ID is used in QR codes and must be unique.">
+                <TextField fullWidth value={form.itemId || ''} />
               </Labeled>
-              <Typography sx={{ fontSize:12, mt:1 }}>
-                Created by John Doe at 13 Apr 2026 14:40<br/>
-                Updated by John Doe 24 Apr 2026 15:33
-              </Typography>
+
+              <Labeled label="Item title" tip="Short title/name of the item for quick identification.">
+                <TextField fullWidth value={form.title || ''} onChange={(e)=>handleChange('title', e.target.value)} />
+              </Labeled>
+
+              <Box />
+              <Box />
+
+              <Box>
+                <Labeled label="Status">
+                  <StatusSelect value={form.status || statuses[0]} onChange={(e)=>handleChange('status', e.target.value)} />
+                </Labeled>
+                <Typography sx={{ fontSize:12, mt:1 }}>
+                  Created by John Doe at 13 Apr 2026 14:40<br/>
+                  Updated by John Doe 24 Apr 2026 15:33
+                </Typography>
+              </Box>
+
             </Box>
 
             {/* Row 2 */}
-            <Box sx={{ gridColumn:'span 4' }}>
-              <Labeled label="Description" tip="Detailed description of the item to help identify it and provide additional context.">
-                <TextField fullWidth multiline rows={3} value={form.description || ''} />
-              </Labeled>
+            <Box sx={{ gridColumn:'span 3', display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:2 }}>
+
+              <Box sx={{ gridColumn:'span 2' }}>
+                <Labeled label="Description" tip="Detailed explanation of the item including condition, usage or notes. Helps users understand the item quickly.">
+                  <TextField fullWidth multiline rows={3} value={form.description || ''} />
+                </Labeled>
+              </Box>
+
+              <Box>
+                <Labeled label="Customer" tip="Customer or company associated with this item. Useful for filtering and reporting.">
+                  <Select fullWidth value={form.customer || ''} onChange={(e)=>handleChange('customer', e.target.value)}>
+                    {customers.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
+                  </Select>
+                </Labeled>
+              </Box>
+
+              <Box />
+              <Box />
+
             </Box>
 
-            <Box sx={{ gridColumn:'span 2' }}>
-              <Labeled label="Customer" tip="Customer associated with this item. Used to track responsibility or assignment.">
-                <Select fullWidth value={form.customer || ''} onChange={(e)=>handleChange('customer', e.target.value)}>
-                  {customers.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
-                </Select>
+            {/* Row 3 */}
+            <Box sx={{ gridColumn:'span 3', display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:2 }}>
+
+              <Labeled label="Size" tip="Physical size of the item (e.g. S, M, L or numeric size).">
+                <TextField fullWidth />
               </Labeled>
+
+              <Labeled label="Weight (kg)" tip="Weight of the item in kilograms. Important for transport and compliance.">
+                <TextField fullWidth />
+              </Labeled>
+
+              <Labeled label="Others" tip="Additional attributes or notes that do not fit into standard fields.">
+                <TextField fullWidth />
+              </Labeled>
+
+              {/* empty columns to keep 5-col layout */}
+              <Box />
+              <Box />
+
             </Box>
 
-            {/* Row 3 (disabled) */}
-            <Box sx={{ gridColumn:'span 2' }}>
-              <Labeled label="Location" tip="Current location of the item based on the most recent scan. This field is automatically updated via the scanner.">
-                <Select fullWidth disabled value={form.location || ''}>
+            {/* Row 4 */}
+            <Box sx={{ gridColumn:'span 3', display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:2 }}>
+
+              <Labeled label="Location" tip="Current physical location of the item based on the latest scan.">
+                <Select fullWidth value={form.location || ''} onChange={(e)=>handleChange('location', e.target.value)}>
                   {locations.map(l => <MenuItem key={l} value={l}>{l}</MenuItem>)}
                 </Select>
               </Labeled>
-            </Box>
 
-            <Box sx={{ gridColumn:'span 2' }}>
-              <Labeled label="Location type" tip="Type of the current location (e.g. Warehouse, Helicopter). Helps group locations logically.">
-                <Select fullWidth disabled value={form.locationType || ''}>
+              <Labeled label="Location Type" tip="Type of location such as Warehouse, Helicopter or Yard.">
+                <Select fullWidth disabled value={form.locationType || ''} onChange={(e)=>handleChange('locationType', e.target.value)}>
                   {locationTypes.map(l => <MenuItem key={l} value={l}>{l}</MenuItem>)}
                 </Select>
               </Labeled>
-            </Box>
 
-            <Box sx={{ gridColumn:'span 2' }}>
-              <Labeled label="Last scan" tip="Date and time when the item was last scanned. This determines the latest known location of the item.">
+              <Labeled label="Last Scan" tip="Timestamp of the most recent scan which determines the latest known location.">
                 <TextField fullWidth disabled value={form.lastScan || ''} />
               </Labeled>
+
+              <Labeled label="User" tip="User who performed the last scan of this item.">
+                <TextField fullWidth disabled value={form.user || 'John Doe'} />
+              </Labeled>
+
+              <Labeled label="IP address" tip="IP address of the device used during the last scan.">
+                <TextField fullWidth disabled value={form.ip || '192.168.1.10'} />
+              </Labeled>
+
             </Box>
+
           </Box>
 
           {/* FILES & HISTORY TABS */}
@@ -819,13 +832,23 @@ function ItemDetail({ item, onBack, onOpenScanner }){
                 <Typography className="file-header">Manual</Typography>
                 <Box className="file-row">
                   <span>user-manual.pdf — User manual for offshore suit</span>
-                  <span>13-04-2026 10:12 | John</span>
+                  <Box sx={{ display:'flex', alignItems:'center', gap:1 }}>
+                    <span>13-04-2026 10:12 | John</span>
+                    <IconButton size="small" sx={{ p:0.5 }}>
+                      <span style={{fontSize:14}}>🗑</span>
+                    </IconButton>
+                  </Box>
                 </Box>
 
                 <Typography className="file-header">Certificate</Typography>
                 <Box className="file-row">
                   <span>certificate.pdf — Safety compliance certificate</span>
-                  <span>14-04-2026 11:20 | John</span>
+                  <Box sx={{ display:'flex', alignItems:'center', gap:1 }}>
+                    <span>14-04-2026 11:20 | John</span>
+                    <IconButton size="small" sx={{ p:0.5 }}>
+                      <span style={{fontSize:14}}>🗑</span>
+                    </IconButton>
+                  </Box>
                 </Box>
               </Box>
             )}
@@ -1015,13 +1038,24 @@ export function MobileScanner({ onOpenItem, onBack, onLogout }){
             </Box>
 
             {logs.map((log, i)=> (
-              <Box key={i} sx={{ display:'flex', justifyContent:'space-between', py:1, borderBottom:'1px solid #eee' }}>
-                <Typography sx={{ fontSize:14 }}>
-                  {log.id} (x{log.qty})
-                </Typography>
-                <Typography sx={{ fontSize:13, color:'#666' }}>
-                  {log.time}
-                </Typography>
+              <Box key={i} sx={{ display:'flex', justifyContent:'space-between', alignItems:'center', py:1, borderBottom:'1px solid #eee' }}>
+                <Box>
+                  <Typography sx={{ fontSize:14 }}>
+                    {log.id} (x{log.qty})
+                  </Typography>
+                  <Typography sx={{ fontSize:13, color:'#666' }}>
+                    {log.time}
+                  </Typography>
+                </Box>
+
+                <IconButton
+                  size="small"
+                  onClick={()=>{
+                    setLogs(prev => prev.filter((_, idx)=> idx !== i));
+                  }}
+                >
+                  <span style={{ fontSize:16 }}>🗑</span>
+                </IconButton>
               </Box>
             ))}
           </Box>
